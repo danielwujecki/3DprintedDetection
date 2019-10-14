@@ -1,0 +1,38 @@
+# Rendering type settings
+color_image: true
+depth_image: false
+line_image: false
+point_cloud: false
+# Object sampling settings
+object_repair: true
+object_scale_factor: -1 # 1/1000.0 SIE, -1 scale to bbox
+object_sampling_type: ROT_Z # Rotate object around z axis
+object_samples: 16
+object_split_components: true # If object consists of multiple components, render each individually
+# Camera sampling settings
+camera_samples: 8 # nr of samples in sphere and arc sampling
+camera_distances: 1 # camera distances
+camera_dist_limits: [8.0, 8.0] # distance from object
+camera_sampling_type: ARC # FIB_SPHERE #ARC # fixed
+camera_sampling: [[0.0, -2.5, 5.7]] #, [0.0, -3.0, 2.5], [0.0, -2.5, 3.0]]
+camera_arc_angle_limits: [45, 80] # Angle limits of arc sampling in degrees
+camera_render_size: [512, 512]
+# Static pose sampling
+static_poses: true # Find static poses of object
+static_pose_trials: 200 # Nr of simulation runs
+static_pose_thresh: 0.05 # Percentage of trials to be considered static pose
+static_max_poses: -1 # Maximum nr of static poses. -1 for all
+static_collision_type: CONVEX_HULL # MESH
+# Paths
+path: "%s/objects" # Need to adjust
+# Processings settings
+company: o3d
+format: stl
+render_threads: 2
+debug: false
+device: "CPU" # CPU (for GPU modifications in render_object.py needed)
+# Render settings
+render_depth_ground: false # ground floor underneath object for depthmap rendering
+render_depth_range: [200.0, 10000.0] # depth range in mm
+render_color_mode: "RGBA" #RGB, RGBA #affects only color rendering
+render_color_depth: "8" #16 #affects only color rendering

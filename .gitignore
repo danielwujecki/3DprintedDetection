@@ -1,0 +1,14 @@
+prediction/model
+faster_rcnn/model/
+objects/
+images/
+meta/
+
+.ipynb_checkpoints/
+__pycache__/
+.vscode/
+
+*.tar*
+*.png
+*.jpg
+*.jpeg
