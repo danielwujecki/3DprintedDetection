@@ -3,6 +3,8 @@ faster_rcnn/model/
 objects/
 images/
 meta/
+data/
+!data/place_data_here
 
 .ipynb_checkpoints/
 __pycache__/

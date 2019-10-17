@@ -3,7 +3,7 @@ import tensorflow as tf
 from keras import backend as K
 from keras.engine import Layer
 
-from frcnn_utils import apply_regr
+from utils import apply_regr
 from non_max_suppression import nm_suppress
 
 

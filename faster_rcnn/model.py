@@ -2,7 +2,7 @@ from keras.layers import Flatten, Dense, Conv2D, TimeDistributed
 from keras.layers import Dropout, Input
 from keras.models import Model
 from keras.applications import VGG16
-from frcnn_roipooling import ROIPoolingLayer
+from roipooling import ROIPoolingLayer
 
 
 def rpn_layer(X_img, config):

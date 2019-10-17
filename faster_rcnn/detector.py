@@ -2,13 +2,13 @@ import cv2
 import numpy as np
 from scipy.optimize import linear_sum_assignment
 
-from frcnn_config import Config
-from frcnn_model import build_model
-from frcnn_roipooling import rpn_to_roi
+from config import Config
+from model import build_model
+from roipooling import rpn_to_roi
 from non_max_suppression import nm_suppress
 
 
-class Detector:
+class Detector(object):
     __color_list = [[255, 0, 0], [0, 255, 0],
                     [0, 0, 255], [150, 150, 150],
                     [200, 200, 0], [0, 200, 200],
@@ -45,19 +45,17 @@ class Detector:
     def __preprocess_img(self, img):
         """return:
             * image preprocessed for FRCNN
-            * RGB image to draw bboxes and classes
             * ratio: size difference between preprocessed and original image
         """
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         img_prepro, factor = self.__resize_img(img)
         img_prepro = img_prepro.astype(np.float32)
         img_prepro -= np.array(self.__conf.img_channel_mean)
         img_prepro /= self.__conf.img_scaling_factor
         img_prepro = np.expand_dims(img_prepro, axis=0)
-        return img_prepro, img, factor
+        return img_prepro, factor
 
 
-    def __predict(self, img):
+    def __run_frcnn(self, img):
         y_class, y_regr, features = self.__rpn.predict(img)
 
         w, h = img.shape[1:-1]
@@ -96,29 +94,43 @@ class Detector:
         return rois
 
 
-    def __choose_best(self, y_class, y_regr, rpn_rois, threshold):
-        print("Take all objects with more than {}% confidence".format(int(threshold * 100)))
+    def __choose_best(self, y_class, y_regr, rpn_rois, thresh=0.25, nm_thresh=0.4):
+        if thresh is None:
+            thresh = 0.25
+        assert 0. <= thresh <= 1.
+        assert 0. <= nm_thresh <= 1.
+
+        print("Take all objects with more than {}% confidence".format(int(thresh * 100)))
         best_idx = np.argmax(y_class, axis=1)
         best_prob = y_class[np.arange(y_class.shape[0]), best_idx]
 
         max_class = self.__conf.nb_classes - 1
-        idx = np.where(np.bitwise_or(best_prob < threshold,
+        idx = np.where(np.bitwise_or(best_prob < thresh,
                                      best_idx == max_class))[0]
         y_regr = np.delete(y_regr, idx, axis=0)
         rpn_rois = np.delete(rpn_rois, idx, axis=0)
         best_idx = np.delete(best_idx, idx, axis=0)
         best_prob = np.delete(best_prob, idx, axis=0)
 
+        if not y_regr.shape[0]:
+            return None, None, None
+
         y_regr = y_regr.reshape(y_regr.shape[0], -1, 4)
         y_regr = y_regr[np.arange(y_regr.shape[0]), best_idx]
 
         rois = self.__apply_regr(y_regr, rpn_rois)
-        idx = nm_suppress(rois, best_prob, overlap_thresh=0.3)
+        idx = nm_suppress(rois, best_prob, overlap_thresh=nm_thresh)
 
         return rois[idx], best_prob[idx], best_idx[idx]
 
 
-    def __assignment(self, y_class, y_regr, rpn_rois, objects, thresh=0.1):
+    def __assignment(self, y_class, y_regr, rpn_rois, objects, thresh=0.1, nm_thresh=0.4):
+        if thresh is None:
+            thresh = 0.1
+        assert 0. <= thresh <= 1.
+        assert 0. <= nm_thresh <= 1
+        assert objects is not None
+
         print('Assignment solver - search for the following objects:', objects)
         while True:
             roi_idx, col_idx = linear_sum_assignment(1 - y_class[:, objects])
@@ -132,7 +144,7 @@ class Detector:
             rois = self.__apply_regr(regr, rpn_rois[roi_idx])
 
             # find rois, which overleap with other bbox
-            idx = nm_suppress(rois, probs, overlap_thresh=0.4)
+            idx = nm_suppress(rois, probs, overlap_thresh=nm_thresh)
             idx_out = np.delete(np.arange(objects.shape[0]), idx, 0)
             idx_out = np.concatenate((idx_out, np.where(probs[idx] < thresh)[0]))
 
@@ -152,29 +164,42 @@ class Detector:
                 return rois[idx], probs[idx], objects[idx]
 
 
-    def detect(self, img, objects=None, threshold=0.25):
-        """Take a BGR Image and returns a RGB image
-        predicted bboxes and classes are drawn into the image
-        """
-        img_prepro, img, factor = self.__preprocess_img(img)
-        y_class, y_regr, rpn_rois = self.__predict(img_prepro)
+    def predict(self, img, objects=None, thresh=None):
+        img_prepro, factor = self.__preprocess_img(img)
+        y_class, y_regr, rpn_rois = self.__run_frcnn(img_prepro)
         y_class, y_regr = y_class[0], y_regr[0]
 
         if not objects:
             rois, probs, cls_idx = self.__choose_best(y_class, y_regr, rpn_rois,
-                                                      threshold=threshold)
+                                                      thresh=thresh)
         else:
             objects = np.array(objects, dtype='int')
-            rois, probs, cls_idx = self.__assignment(y_class, y_regr,
-                                                     rpn_rois, objects)
+            rois, probs, cls_idx = self.__assignment(y_class, y_regr, rpn_rois,
+                                                     objects, thresh=thresh)
 
-        for i, r in enumerate((rois * factor).astype('int')):
-            x1, y1, x2, y2 = r
+        if rois is None:
+            return None, None
+
+        res = np.zeros((rois.shape[0], 5), dtype='int')
+        res[:, 0] = cls_idx.astype('int')
+        res[:, 1:] = (rois * factor).astype('int')
+        return res, probs
+
+
+    def detect(self, img, objects=None, thresh=None):
+        """Take a BGR Image and returns a RGB image
+        predicted bboxes and classes are drawn into the image
+        """
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        rois, probs = self.predict(img, objects, thresh)
+        if rois is None:
+            return img
+        for i, r in enumerate(rois):
+            x1, y1, x2, y2 = r[1:]
             color = self.__color_list[np.random.randint(0, self.__nbc)]
             img = cv2.rectangle(img, (x1, y1), (x2, y2), color, 10)
-            text = "Class {}: {}%".format(cls_idx[i], int(probs[i] * 100))
+            text = "Class {}: {}%".format(r[0], int(probs[i] * 100))
             img[y1-100:y1, x1-6:x1+600] = color
             img = cv2.putText(img, text, (x1, y1 - 20), cv2.FONT_HERSHEY_SIMPLEX,
                               2.5, (255, 255, 255), 3)
-
         return img

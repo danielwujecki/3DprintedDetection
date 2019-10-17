@@ -1,7 +1,7 @@
 from math import sqrt
 
 
-class Config:
+class Config(object):
     """
     Configuration class to set hyperparameters etc.
     """
