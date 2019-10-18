@@ -5,6 +5,8 @@ images/
 meta/
 data/
 !data/place_data_here
+model/
+!model/place_weights_here
 
 .ipynb_checkpoints/
 __pycache__/
