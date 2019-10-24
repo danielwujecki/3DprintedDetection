@@ -13,10 +13,10 @@ from cnn_datagenerator import get_train_gen
 
 ### --- paths --- ###
 
-BASE_PATH = '/'.join(os.getcwd().split('/')[:-1])
-TRAIN_PATH = BASE_PATH + '/train_images/images_croped'
-MODEL_JSON = './models/cnn_vgg16.json'
-MODEL_WEIGHTS = './models/cnn_vgg16.hdf5'
+BASE_PATH = '/'.join(os.getcwd().split('/'))
+TRAIN_PATH = os.path.join(BASE_PATH, 'data/train_croped')
+MODEL_JSON = './model/cnn_vgg16.json'
+MODEL_WEIGHTS = './model/cnn_vgg16.hdf5'
 
 ### --- paths end --- ###
 

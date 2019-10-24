@@ -4,8 +4,8 @@ import time
 from CNN import CNN
 from Detector import Detector
 
-SAVE_PATH = '../data/results_synth_coldet'
-PATH = '../data/detection_synth'
+SAVE_PATH = '../data/results'
+PATH = '../data/detection_black'
 CLASS_LIST = '../data/class_list.txt'
 
 assert os.path.isfile(CLASS_LIST)

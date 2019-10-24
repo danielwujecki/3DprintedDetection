@@ -7,7 +7,7 @@ class Config(object):
     """
 
     def __init__(self):
-        self.train_path = '../detection_images/detect_imgs/bboxes_detect_imgs.csv'
+        self.train_path = '../data/train_detection/bboxes_detect_imgs.csv'
         self.weights_path = 'model/frcnn_weights.hdf5'
         self.history_path = 'model/history.csv'
         self.plot_path = 'model/history_plot.png'

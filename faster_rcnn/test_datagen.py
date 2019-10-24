@@ -3,12 +3,12 @@ import time
 import numpy as np
 import matplotlib.pyplot as plt
 
-from frcnn_data import *
-from frcnn_config import Config
+from data import *
+from config import Config
 
 
 # read data and create config
-train_path = '../detection_images/detect_imgs/bboxes_detect_imgs.csv'
+train_path = '../data/train_detection/bboxes_detect_imgs.csv'
 img_number = np.random.randint(0, 1000)
 print("Img Nr.: {}".format(img_number))
 

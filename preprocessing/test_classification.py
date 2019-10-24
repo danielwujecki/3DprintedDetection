@@ -106,10 +106,10 @@ def resize_img(img, shape=(128, 128), debug=True):
 
 
 if __name__ == "__main__":
-    save_path = 'images/std_croped/'
+    save_path = '../data/test_croped/'
     if not os.path.isdir(save_path):
         os.mkdir(save_path)
-    path = 'images/std_raw/'
+    path = '../data/classification/'
     subfolders = os.listdir(path)
     for j, folder in enumerate(subfolders):
         msg = 'Fortschritt - Ordner: {} von {}\r'.format(j + 1, len(subfolders))

@@ -1,7 +1,3 @@
-# use GPU
-# import plaidml.keras
-# plaidml.keras.install_backend()
-
 import os
 import keras
 import matplotlib.pyplot as plt
@@ -9,12 +5,13 @@ from cnn_datagenerator import get_train_gen
 from keras.layers import Activation, Conv2D, Dense
 from keras.layers import Dropout, Flatten, MaxPooling2D
 
+
 ### --- paths --- ###
 
-BASE_PATH = '/'.join(os.getcwd().split('/')[:-1])
-TRAIN_PATH = BASE_PATH + '/train_images/images_croped'
-MODEL_JSON = './cnn_own.json'
-MODEL_WEIGHTS = './cnn_own.hdf5'
+BASE_PATH = '/'.join(os.getcwd().split('/'))
+TRAIN_PATH = os.path.join(BASE_PATH, 'data/train_croped')
+MODEL_JSON = './model/cnn_own.json'
+MODEL_WEIGHTS = './model/cnn_own.hdf5'
 
 ### --- paths end --- ###
 

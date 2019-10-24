@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from frcnn_config import Config
+from config import Config
 
 
 conf = Config()

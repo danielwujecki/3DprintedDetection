@@ -2,17 +2,17 @@ import os
 import time
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 from keras.optimizers import Adam
 from keras.utils import generic_utils
 from keras.metrics import categorical_crossentropy
 
-from frcnn_config import Config
-from frcnn_model import build_model_training
-from frcnn_roipooling import rpn_to_roi
-from frcnn_class_gt import calc_gt_class
-from frcnn_data import get_data, data_generator
-from frcnn_losses import rpn_loss_cls, get_loss_regr
+from config import Config
+from model import build_model_training
+from roipooling import rpn_to_roi
+from class_gt import calc_gt_class
+from data import get_data, data_generator
+from losses import rpn_loss_cls, get_loss_regr
 
 assert os.path.isdir('model')
 

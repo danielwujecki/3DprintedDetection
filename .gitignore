@@ -1,12 +1,12 @@
 prediction/model
 faster_rcnn/model/
 objects/
-images/
+model/
 meta/
 data/
 !data/place_data_here
-model/
 !model/place_weights_here
+!data/class_list.txt
 
 .ipynb_checkpoints/
 __pycache__/

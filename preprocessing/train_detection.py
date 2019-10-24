@@ -4,11 +4,11 @@ import pickle
 import numpy as np
 from uuid import uuid4
 
-BASE_PATH = '/home/daniel/Schreibtisch/bachelorarbeit/src'
-IMG_SAVE_PATH = 'detect_imgs'
-TRAINING_IMG_PATH = os.path.join(BASE_PATH, 'train_images/images')
-BBOX_FILE = os.path.join(IMG_SAVE_PATH, 'bboxes_detect_imgs.csv')
-CLASS_FILE = os.path.join(IMG_SAVE_PATH, 'class_mapping.pickle')
+BASE_PATH = '/'.join(os.getcwd().split('/'))
+IMG_SAVE_PATH = os.path.join(BASE_PATH, 'data/train_detection')
+TRAINING_IMG_PATH = os.path.join(BASE_PATH, 'rendering/images')
+BBOX_FILE = os.path.join(IMG_SAVE_PATH, 'data/train_detection/bboxes_detect_imgs.csv')
+CLASS_FILE = os.path.join(IMG_SAVE_PATH, 'data/train_detection/class_mapping.pickle')
 
 CAM_ROT = 16
 CAM_ANGLES = 8

@@ -92,11 +92,11 @@ if __name__ == "__main__":
     color_list = [[230, 10, 10], [10, 230, 10], [10, 10, 230], [150, 150, 150]]
     color_list += [[0, 0, 0], [200, 200, 10], [10, 200, 200], [200, 10, 200]]
 
-    save_path = './images_croped'
+    save_path = '../data/train_croped'
     if not os.path.isdir(save_path):
         os.mkdir(save_path)
 
-    path = './images'
+    path = '../rendering/images'
     subfolders = os.listdir(path)
     failed_objects = []
     for i, folder in enumerate(subfolders):

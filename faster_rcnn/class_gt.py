@@ -1,6 +1,6 @@
 import numpy as np
 from keras.utils import to_categorical
-from frcnn_utils import calc_iou_fast
+from utils import calc_iou_fast
 
 
 def calc_gt_class(rois, img_data, config):
@@ -69,7 +69,6 @@ def calc_gt_class(rois, img_data, config):
     tw = np.log(tw[fg_idx])
     th = np.log(th[fg_idx])
 
-    # TODO useful? check Fast RCNN paper
     sx, sy, sw, sh = config.classifier_regr_std
     y_regr_cord = np.stack((tx * sx, ty * sy, tw * sw, th * sh)).transpose()
 

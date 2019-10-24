@@ -2,7 +2,7 @@ import os
 import cv2
 import copy
 import numpy as np
-from frcnn_rpn_gt import calc_gt_rpn
+from rpn_gt import calc_gt_rpn
 
 
 def get_new_img_size(width, height, img_min_side=450):

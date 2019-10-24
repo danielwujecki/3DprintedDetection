@@ -4,7 +4,7 @@ import time
 from detector import Detector
 
 SAVE_PATH = '../data/results'
-PATH = '../data/detection_synth'
+PATH = '../data/detection_black'
 CLASS_LIST = '../data/class_list.txt'
 
 assert os.path.isfile(CLASS_LIST)

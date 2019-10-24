@@ -1,7 +1,7 @@
 import random
 import numpy as np
 from functools import reduce
-from frcnn_utils import calc_iou_fast
+from utils import calc_iou_fast
 
 
 def calc_gt_rpn(img_data, config):

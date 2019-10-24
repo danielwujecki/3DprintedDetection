@@ -3,10 +3,10 @@ import cv2
 import numpy as np
 from uuid import uuid4
 
-BASE_PATH = '/home/daniel_golf/bachelorarbeit/src'
-IMG_SAVE_PATH = 'detect_imgs'
-TRAINING_IMG_PATH = os.path.join(BASE_PATH, 'train_images/images')
-TRAIN_FILE = '3DObjects_train.txt'
+BASE_PATH = '/'.join(os.getcwd().split('/'))
+IMG_SAVE_PATH = os.path.join(BASE_PATH, 'data/train_detection_yolo')
+TRAINING_IMG_PATH = os.path.join(BASE_PATH, 'rendering/images')
+TRAIN_FILE = os.path.join('data/3DObjects_train.txt')
 
 CAM_ROT = 16
 CAM_ANGLES = 8

@@ -3,12 +3,11 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-from frcnn_config import Config
+from config import Config
 
-# base_path = '../detection_images/detect_imgs'
-# train_images = os.listdir(base_path)
-# image_path = os.path.join(base_path, np.random.choice(train_images))
-image_path = '/home/daniel/Dropbox/bachelorarbeit_box/bilder/detection_test2.jpg'
+base_path = '../data/train_detection'
+train_images = os.listdir(base_path)
+image_path = os.path.join(base_path, np.random.choice(train_images))
 
 conf = Config()
 

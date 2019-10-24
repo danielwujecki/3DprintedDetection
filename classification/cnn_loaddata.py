@@ -3,8 +3,8 @@ import cv2
 import numpy as np
 
 
-BASE_PATH = '/'.join(os.getcwd().split('/')[:-1])
-TEST_PATH = BASE_PATH + '/test_images/images/std_croped'
+BASE_PATH = '/'.join(os.getcwd().split('/'))
+TEST_PATH = os.path.join(BASE_PATH, 'data/test_croped')
 
 def test(dtype='float32'):
     test_images = os.listdir(TEST_PATH)
