@@ -1,11 +1,7 @@
-prediction/model
-faster_rcnn/model/
 objects/
 model/
 meta/
 data/
-!data/place_data_here
-!model/place_weights_here
 !data/class_list.txt
 
 .ipynb_checkpoints/

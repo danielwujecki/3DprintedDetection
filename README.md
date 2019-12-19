@@ -2,8 +2,8 @@
 
 This is the repository based on my bachelor thesis in computer since.<br/>
 There is also a dataset (images, pretrained models etc.) available through one of the following links:
-* https://bit.ly/2oBSpOz (Google Drive)
-* https://tubcloud.tu-berlin.de/s/QwTo9aNtxMA588n (Nextcloud of TU Berlin)
+* [Google Drive](https://drive.google.com/drive/folders/1F7GYX2hXgOC4UDBJ23QVYoo3eQKIPUL2?usp=sharing)
+* [Nextcloud of TU Berlin](https://tubcloud.tu-berlin.de/s/QwTo9aNtxMA588n)
 
 ## Repository
 
