@@ -24,7 +24,7 @@ class ROIPoolingLayer(Layer):
 
     """
 
-    def __init__(self, pooled_height, pooled_width, **kwargs):
+    def __init__(self, pooled_height=9, pooled_width=9, **kwargs):
         self.pooled_height = pooled_height
         self.pooled_width = pooled_width
 

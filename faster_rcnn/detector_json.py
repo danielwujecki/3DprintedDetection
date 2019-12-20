@@ -1,11 +1,14 @@
 import cv2
 import numpy as np
+from keras.models import model_from_json
 from scipy.optimize import linear_sum_assignment
 
 from config import Config
-from model import build_model
-from roipooling import rpn_to_roi
 from non_max_suppression import nm_suppress
+from roipooling import rpn_to_roi, ROIPoolingLayer
+
+JSON_RPN = './model/rpn.json'
+JSON_CLASS = './model/classifier.json'
 
 
 class Detector(object):
@@ -19,8 +22,14 @@ class Detector(object):
         self.__nbc = len(self.__color_list)
         self.__conf = Config()
 
-        modelparts = build_model(self.__conf)
-        self.__rpn, self.__classifier = modelparts
+        with open(JSON_RPN, 'r') as file:
+            rpn_string = file.readline()
+        with open(JSON_CLASS, 'r') as file:
+            class_string = file.readline()
+
+        customobj = {'ROIPoolingLayer': ROIPoolingLayer}
+        self.__rpn = model_from_json(rpn_string)
+        self.__classifier = model_from_json(class_string, custom_objects=customobj)
 
         self.__rpn.load_weights(self.__conf.weights_path, by_name=True)
         self.__classifier.load_weights(self.__conf.weights_path, by_name=True)
