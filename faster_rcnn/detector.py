@@ -205,5 +205,5 @@ class Detector(object):
             text = "Class {}: {}%".format(r[0], int(probs[i] * 100))
             img[y1-100:y1, x1-6:x1+600] = color
             img = cv2.putText(img, text, (x1, y1 - 20), cv2.FONT_HERSHEY_SIMPLEX,
-                              2.5, (255, 255, 255), 3)
+                              2.5, (255, 255, 255), 5)
         return img

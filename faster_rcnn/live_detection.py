@@ -3,6 +3,8 @@ import time
 import queue
 import threading
 
+from detector_lowres import Detector
+
 
 class VideoCapture:
     """
@@ -55,12 +57,14 @@ class VideoCapture:
 
 
 if __name__ == "__main__":
-    cap = VideoCapture(0)
+    d = Detector()
+    cap = VideoCapture(4)
 
     while True:
         frame = cap.read()
 
-        # apply detection here
+        frame = d.detect(frame)
+        frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
 
         cv2.imshow("frame", frame)
         if chr(cv2.waitKey(5) & 0xFF) == 'q':

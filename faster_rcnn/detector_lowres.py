@@ -1,14 +1,11 @@
 import cv2
 import numpy as np
-from keras.models import model_from_json
 from scipy.optimize import linear_sum_assignment
 
 from config import Config
+from model import build_model
+from roipooling import rpn_to_roi
 from non_max_suppression import nm_suppress
-from roipooling import rpn_to_roi, ROIPoolingLayer
-
-JSON_RPN = './model/rpn.json'
-JSON_CLASS = './model/classifier.json'
 
 
 class Detector(object):
@@ -22,14 +19,8 @@ class Detector(object):
         self.__nbc = len(self.__color_list)
         self.__conf = Config()
 
-        with open(JSON_RPN, 'r') as file:
-            rpn_string = file.readline()
-        with open(JSON_CLASS, 'r') as file:
-            class_string = file.readline()
-
-        customobj = {'ROIPoolingLayer': ROIPoolingLayer}
-        self.__rpn = model_from_json(rpn_string)
-        self.__classifier = model_from_json(class_string, custom_objects=customobj)
+        modelparts = build_model(self.__conf)
+        self.__rpn, self.__classifier = modelparts
 
         self.__rpn.load_weights(self.__conf.weights_path, by_name=True)
         self.__classifier.load_weights(self.__conf.weights_path, by_name=True)
@@ -112,7 +103,7 @@ class Detector(object):
         assert 0. <= thresh <= 1.
         assert 0. <= nm_thresh <= 1.
 
-        print("Take all objects with more than {}% confidence".format(int(thresh * 100)))
+        # print("Take all objects with more than {}% confidence".format(int(thresh * 100)))
         best_idx = np.argmax(y_class, axis=1)
         best_prob = y_class[np.arange(y_class.shape[0]), best_idx]
 
@@ -210,9 +201,9 @@ class Detector(object):
             x1, y1, x2, y2 = r[1:]
             col_idx = np.random.randint(0, self.__nbc)
             color = self.__color_list[col_idx]
-            img = cv2.rectangle(img, (x1, y1), (x2, y2), color, 10)
+            img = cv2.rectangle(img, (x1, y1), (x2, y2), color, 4)
             text = "Class {}: {}%".format(r[0], int(probs[i] * 100))
-            img[y1-100:y1, x1-6:x1+600] = color
-            img = cv2.putText(img, text, (x1, y1 - 20), cv2.FONT_HERSHEY_SIMPLEX,
-                              2.5, (255, 255, 255), 3)
+            img[y1-30:y1, x1-4:x1+200] = color
+            img = cv2.putText(img, text, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX,
+                              0.6, (255, 255, 255), 2)
         return img
