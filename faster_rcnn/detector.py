@@ -136,7 +136,7 @@ class Detector(object):
 
         print('Assignment solver - search for the following objects:', objects)
         while True:
-            roi_idx, col_idx = linear_sum_assignment(1 - y_class[:, objects])
+            roi_idx, col_idx = linear_sum_assignment(y_class[:, objects], maximize=True)
             roi_idx = roi_idx[np.argsort(col_idx)]
 
             probs = y_class[roi_idx, objects]
