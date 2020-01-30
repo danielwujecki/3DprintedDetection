@@ -1,6 +1,6 @@
 # Object detection of 3D-printed objects using synthetic images
 
-This is the repository based on my bachelor thesis in computer since.<br/>
+This is the repository based on my bachelor thesis in computer science.<br/>
 There is also a dataset (images, pretrained models etc.) available through one of the following links:
 * [Google Drive](https://drive.google.com/drive/folders/1F7GYX2hXgOC4UDBJ23QVYoo3eQKIPUL2?usp=sharing)
 * [Nextcloud of TU Berlin](https://tubcloud.tu-berlin.de/s/QwTo9aNtxMA588n)
@@ -36,3 +36,7 @@ of different CNNs. There are also files like `featurewise_mean.npy` and `feature
 for data normalization of the CNN-Models.
 
 All weights are trained on Google Cloud Compute Engines with 4 vCPUs, 16GB RAM and a Tesla K80 GPU.
+
+## Example Notebook for Faster RCNN with assignment solver:
+
+* [Google Colab](https://colab.research.google.com/drive/1ngGBN8tKxaG9ZS4vv-te4pssUGNEszFG)
