@@ -21,7 +21,7 @@ opencv-contrib-python-nonfree==4.1.1.1
 opencv-python==4.1.1.26
 pandas==0.25.1
 pickleshare==0.7.5
-Pillow==6.2.1
+Pillow==8.3.2
 pypng==0.0.20
 PyYAML==5.1.2
 qtconsole==4.5.2
